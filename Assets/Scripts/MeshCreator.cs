@@ -4,18 +4,18 @@ using System.Collections.Generic;
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider))]
 public class MeshCreator : MonoBehaviour
 {
- #region PUBLIC PROPERTIES
-    public float width  = 1;
+    #region PUBLIC PROPERTIES
+    public float width = 1;
     public float height = 1;
     public float length = 1;
- #endregion
+    #endregion
 
- #region PRIVATE PROPERTIES
+    #region PRIVATE PROPERTIES
     private List<Vector3> m_vertices;
     private List<Vector3> m_normals;
     private List<Vector2> m_uvs;
-    private List<int>     m_indices;
- #endregion
+    private List<int> m_indices;
+    #endregion
 
     /// <summary>
     /// Make sure all list are instantiated.
@@ -23,9 +23,9 @@ public class MeshCreator : MonoBehaviour
     private void CheckInstances()
     {
         m_vertices = m_vertices ?? (m_vertices = new List<Vector3>());
-        m_normals  = m_normals  ?? (m_normals = new List<Vector3>());
-        m_indices  = m_indices  ?? (m_indices = new List<int>());
-        m_uvs      = m_uvs      ?? (m_uvs = new List<Vector2>());
+        m_normals = m_normals ?? (m_normals = new List<Vector3>());
+        m_indices = m_indices ?? (m_indices = new List<int>());
+        m_uvs = m_uvs ?? (m_uvs = new List<Vector2>());
     }
 
     /// <summary>
@@ -51,7 +51,7 @@ public class MeshCreator : MonoBehaviour
         Mesh mesh = new Mesh();
         mesh.name = name;
 
-        mesh.vertices  = m_vertices.ToArray();
+        mesh.vertices = m_vertices.ToArray();
         mesh.triangles = m_indices.ToArray();
 
         // Check if we have the correct amount of normals
@@ -63,7 +63,6 @@ public class MeshCreator : MonoBehaviour
             mesh.uv = m_uvs.ToArray();
 
         mesh.RecalculateBounds();
-        mesh.Optimize();
 
         return mesh;
     }
@@ -79,7 +78,7 @@ public class MeshCreator : MonoBehaviour
 
         GetComponent<MeshFilter>().sharedMesh = quadMesh;
         GetComponent<MeshCollider>().sharedMesh = quadMesh;
-        GetComponent<MeshRenderer>().sharedMaterial = new Material(Shader.Find("Diffuse"));
+        GetComponent<MeshRenderer>().sharedMaterial = new Material(Shader.Find("Standard"));
     }
 
     /// <summary>
@@ -130,7 +129,7 @@ public class MeshCreator : MonoBehaviour
 
         GetComponent<MeshFilter>().sharedMesh = cubeMesh;
         GetComponent<MeshCollider>().sharedMesh = cubeMesh;
-        GetComponent<MeshRenderer>().sharedMaterial = new Material(Shader.Find("Diffuse"));
+        GetComponent<MeshRenderer>().sharedMaterial = new Material(Shader.Find("Standard"));
     }
 
     /// <summary>
@@ -141,12 +140,12 @@ public class MeshCreator : MonoBehaviour
     /// <param name="length">It's lenght or depth.</param>
     private void SetupCubeMesh(float width, float height, float length)
     {
-        Vector3 up     = Vector3.up * height;
-        Vector3 right  = Vector3.right * width;
+        Vector3 up = Vector3.up * height;
+        Vector3 right = Vector3.right * width;
         Vector3 foward = Vector3.forward * length;
 
         // Set the pivot at the middle of the cube
-        Vector3 farCorner  = (up + right + foward) / 2;
+        Vector3 farCorner = (up + right + foward) / 2;
         Vector3 nearCorner = -farCorner;
 
         // Starting from the nearest bottom left corner of the cube
